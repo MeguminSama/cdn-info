@@ -35,11 +35,15 @@ async function handleRequest(req: Request): Promise<Response> {
   }
 
   let cdnPath = `${_cdnUrl.protocol}//${_cdnUrl.host}${_cdnUrl.pathname}`.split(
-    /discordapp\.com|discord\.com|discordapp\.net/
+    /cdn\.discordapp\.com|discordapp\.com|discord\.com|discordapp\.net/
   )[1];
 
+  console.log(cdnPath);
+
   if (!cdnPath.startsWith("/assets/")) {
-    if (cdnPath.startsWith("/guilds/")) {
+    if (cdnPath.startsWith("/emojis")) {
+      cdnPath = cdnPath.replace(/\.\w+$/, "");
+    } else if (cdnPath.startsWith("/guilds/")) {
       cdnPath = cdnPath.replace(
         /\/([\w\d-]+)\/(\d+)\/(\w+)\/(\w+)\.\w+$/,
         "/$1/$2/$3/$4"
