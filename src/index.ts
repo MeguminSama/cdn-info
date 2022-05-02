@@ -8,6 +8,7 @@ const GCP_API_URL = "https://storage.googleapis.com/storage/v1/b/discord/o/";
 
 const ALLOWED_HOSTS = [
   "cdn.discordapp.com",
+  "media.discordapp.net",
   "discordapp.com",
   "discordapp.net",
   "discord.com",
@@ -35,12 +36,12 @@ async function handleRequest(req: Request): Promise<Response> {
   }
 
   let cdnPath = `${_cdnUrl.protocol}//${_cdnUrl.host}${_cdnUrl.pathname}`.split(
-    /cdn\.discordapp\.com|discordapp\.com|discord\.com|discordapp\.net/
+    /cdn\.discordapp\.com|discordapp\.com|discord\.com|discordapp\.net|media\.discordapp\.net/
   )[1];
 
   console.log(cdnPath);
 
-  if (!cdnPath.startsWith("/assets/")) {
+  if (!cdnPath.startsWith("/assets/") && !cdnPath.startsWith("/attachments/")) {
     if (cdnPath.startsWith("/emojis")) {
       cdnPath = cdnPath.replace(/\.\w+$/, "");
     } else if (cdnPath.startsWith("/guilds/")) {
